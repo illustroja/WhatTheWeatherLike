@@ -13,7 +13,7 @@ import java.net.URL
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.random.Random
-
+import kotlin.math.roundToInt
 
 val country_code = "SG"
 var locale1 = Locale("EN", country_code)
@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity() {
                 val weather = jsonObj.getJSONArray("weather").getJSONObject(0)
                 val updatedAt:Long = jsonObj.getLong("dt")
                 val updatedAtText = "Update at: " +SimpleDateFormat("dd/MM/yyyy hh:mm a", Locale.ENGLISH).format(Date(updatedAt*1000))
-                val temp = main.getString("temp")+"degrees celsius"
+                val temp = main.getString("temp")
                 val temp_min = "Min Temp: " + main.getString("temp_min") + "degrees celsius"
                 val temp_max = "Max Temp: " + main.getString("temp_max") + "degrees celsius"
                 val pressure =  main.getString("pressure")
@@ -67,10 +67,13 @@ class MainActivity : AppCompatActivity() {
                 var weather_description = weather.getString("description")
                 val address = jsonObj.getString("name") + ", " + sys.getString("country")
 
+
+                var temp_float = (temp.toFloat() * 10.0).roundToInt() / 10.0
+
                 findViewById<TextView>(R.id.address).text = address
                 findViewById<TextView>(R.id.updated_at).text = updatedAtText
                 findViewById<TextView>(R.id.weather_status).text = weather_description
-                findViewById<TextView>(R.id.temperature).text = temp
+                findViewById<TextView>(R.id.temperature).text = temp_float.toString()
                 findViewById<TextView>(R.id.temperature_min).text = temp_min
                 findViewById<TextView>(R.id.temperature_max).text = temp_max
                 findViewById<TextView>(R.id.sunrise_timing).text = SimpleDateFormat("hh:mm a", locale1).format(Date(sunrise*1000))
