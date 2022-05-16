@@ -100,7 +100,7 @@
                     android:layout_gravity="center"
                     android:fontFamily="sans-serif-thin"
                     android:text="degrees celsius"
-                    android:textSize="10sp">
+                    android:textSize="25sp">
 
                 </TextView>
             </LinearLayout>
