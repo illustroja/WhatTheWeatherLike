@@ -13,14 +13,13 @@ import java.util.*
 import kotlin.random.Random
 import kotlin.math.roundToInt
 
+
 var country_code = "SG"
 var locale1 = Locale("EN", country_code)
+
 class MainActivity : AppCompatActivity() {
     var CITY: String = "singapore, sg"
     var API:String = "125c6c233852de7920c9c5c910970c65"
-
-
-
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,8 +41,6 @@ class MainActivity : AppCompatActivity() {
             WeatherTask().execute()
         }
 
-
-
         WeatherTask().execute()
     }
     inner class WeatherTask() : AsyncTask<String, Void, String>()
@@ -59,12 +56,14 @@ class MainActivity : AppCompatActivity() {
             var response:String? = try{
                 URL("https://api.openweathermap.org/data/2.5/weather?q=$CITY&units=metric&appid=$API").readText(Charsets.UTF_8)
             } catch (e: Exception) {
+                println("debug: Weather API call FAILED")
                 null
             }
+            println("debug: Weather API call SUCCESS")
             return response
         }
 
-        override fun onPostExecute(result: String?){
+        override fun onPostExecute(result: String){
             super.onPostExecute(result)
             try {
                 val jsonObj = JSONObject(result)
@@ -75,8 +74,8 @@ class MainActivity : AppCompatActivity() {
                 val updatedAt:Long = jsonObj.getLong("dt")
                 val updatedAtText = "Update at: " +SimpleDateFormat("dd/MM/yyyy hh:mm a", Locale.ENGLISH).format(Date(updatedAt*1000))
                 val temp = main.getString("temp")
-                val temp_min = "Min Temp: " + main.getString("temp_min") + "degrees celsius"
-                val temp_max = "Max Temp: " + main.getString("temp_max") + "degrees celsius"
+                var temp_min = main.getString("temp_min")
+                var temp_max = main.getString("temp_max")
                 val pressure =  main.getString("pressure")
                 val humidity =  main.getString("humidity")
 //                28,800,000 is 8hrs in Milliseconds
@@ -88,13 +87,15 @@ class MainActivity : AppCompatActivity() {
 
 
                 var temp_float = (temp.toFloat() * 10.0).roundToInt() / 10.0
+                var temp_min_float = (temp_min.toFloat() * 10.0).roundToInt() / 10.0
+                var temp_max_float = (temp_max.toFloat() * 10.0).roundToInt() / 10.0
 
                 findViewById<TextView>(R.id.address).text = address
                 findViewById<TextView>(R.id.updated_at).text = updatedAtText
                 findViewById<TextView>(R.id.weather_status).text = weather_description
                 findViewById<TextView>(R.id.temperature).text = temp_float.toString()
-                findViewById<TextView>(R.id.temperature_min).text = temp_min
-                findViewById<TextView>(R.id.temperature_max).text = temp_max
+                findViewById<TextView>(R.id.temperature_min).text = "Min Temp: \n " + temp_min_float.toString() + " degrees celsius"
+                findViewById<TextView>(R.id.temperature_max).text = "Max Temp: \n" + temp_max_float.toString() + " degrees celsius"
                 findViewById<TextView>(R.id.sunrise_timing).text = SimpleDateFormat("hh:mm a", locale1).format(Date(sunrise*1000))
                 findViewById<TextView>(R.id.sunset_timing).text = SimpleDateFormat("hh:mm a", locale1).format(Date(sunset*1000))
 

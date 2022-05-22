@@ -144,7 +144,6 @@
                     android:id="@+id/temperature_min"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
                     android:text="Min Temp">
 
                 </TextView>
@@ -157,7 +156,6 @@
                     android:id="@+id/temperature_max"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
                     android:text="Max Temp">
 
                 </TextView>
