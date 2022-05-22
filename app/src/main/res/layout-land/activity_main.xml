@@ -140,7 +140,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="Clear Skies"
-                    android:textSize="28sp">
+                    android:textSize="25sp">
 
                 </TextView>
 
@@ -151,7 +151,7 @@
                     android:layout_gravity="center"
                     android:fontFamily="sans-serif-thin"
                     android:text="30"
-                    android:textSize="64sp">
+                    android:textSize="55sp">
 
                 </TextView>
 
@@ -162,7 +162,7 @@
                     android:layout_gravity="center"
                     android:fontFamily="sans-serif-thin"
                     android:text="degrees celsius"
-                    android:textSize="25sp">
+                    android:textSize="20sp">
 
                 </TextView>
 
