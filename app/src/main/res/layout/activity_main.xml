@@ -195,15 +195,14 @@
 
                     <Space
                         android:layout_width="5dp"
-                        android:layout_height="wrap_content"></Space>
+                        android:layout_height="wrap_content"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Sunrise"
-                        android:textSize="12sp">
+                        android:textSize="12sp"/>
 
-                    </TextView>
 
                     <TextView
                         android:id="@+id/sunrise_timing"
@@ -412,29 +411,21 @@
                     <ImageView
                         android:layout_width="25dp"
                         android:layout_height="25dp"
-                        android:src="@drawable/info"
-                        android:tint="#FFF"></ImageView>
+                        android:src="@drawable/refresh_icon"/>
 
                     <Space
                         android:layout_width="5dp"
                         android:layout_height="wrap_content"></Space>
 
-                    <TextView
+                    <Button
+                        android:id="@+id/refresh"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="More Info"
-                        android:textSize="12sp">
-
-                    </TextView>
-
-                    <TextView
-                        android:id="@+id/sunrise_timing"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="-"
-                        android:textSize="14sp">
-
-                    </TextView>
+                        android:layout_height="35dp"
+                        android:text="Refresh"
+                        android:textSize="10sp"
+                        android:textColor="@color/white"
+                        android:backgroundTint="#24111111">
+                    </Button>
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
