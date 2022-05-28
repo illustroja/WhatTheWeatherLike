@@ -18,6 +18,33 @@
         android:background="@drawable/gradient_bg"></ImageView>
 
     <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom = "true">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="600px"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:adjustViewBounds="?attr/isLightTheme"
+            android:background="@drawable/gradient_bg_invert"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom = "true">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="550px"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:adjustViewBounds="?attr/isLightTheme"
+            android:background="#3A000000"/>
+    </RelativeLayout>
+
+    <RelativeLayout
         android:id="@+id/mainContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -57,7 +84,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/neutral_grey"
-                android:hint=" Enter current City..."
+                android:hint=" Enter a City..."
                 android:textColor="@color/black"
                 android:padding="5dp"
                 android:textSize="20sp">
@@ -73,6 +100,11 @@
                 android:backgroundTint="@color/dark_dark_grey"
                 >
             </Button>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/gradient_bg_invert"></ImageView>
         </LinearLayout>
 
         <LinearLayout
@@ -170,6 +202,7 @@
             android:layout_alignParentBottom="true"
             android:orientation="vertical">
 
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -179,7 +212,7 @@
                 <LinearLayout
                     android:layout_width="110dp"
                     android:layout_height="wrap_content"
-                    android:background="#3CF1EBF1"
+                    android:background="@drawable/layout_bg"
                     android:gravity="center"
                     android:orientation="vertical"
                     android:padding="8dp"
@@ -188,7 +221,7 @@
                     <ImageView
                         android:layout_width="25dp"
                         android:layout_height="25dp"
-                        android:src="@drawable/sunrise"
+                        android:src="@drawable/sunriseiconbypixelperfect"
                         app:tint="#FFF">
 
                     </ImageView>
@@ -215,7 +248,7 @@
                 </LinearLayout>
 
                 <Space
-                    android:layout_width="10dp"
+                    android:layout_width="15dp"
                     android:layout_height="wrap_content">
 
                 </Space>
@@ -223,7 +256,7 @@
                 <LinearLayout
                     android:layout_width="110dp"
                     android:layout_height="wrap_content"
-                    android:background="#3CF1EBF1"
+                    android:background="@drawable/layout_bg"
                     android:gravity="center"
                     android:orientation="vertical"
                     android:padding="8dp"
@@ -232,8 +265,8 @@
                     <ImageView
                         android:layout_width="25dp"
                         android:layout_height="25dp"
-                        android:src="@drawable/sunset"
-                        android:tint="#FFF"></ImageView>
+                        android:src="@drawable/sunseticonbypixelperfect"
+                        android:tint="#FFF" />
 
                     <Space
                         android:layout_width="5dp"
@@ -258,7 +291,7 @@
                 </LinearLayout>
 
                 <Space
-                    android:layout_width="10dp"
+                    android:layout_width="15dp"
                     android:layout_height="wrap_content">
 
                 </Space>
@@ -266,7 +299,7 @@
                 <LinearLayout
                     android:layout_width="110dp"
                     android:layout_height="wrap_content"
-                    android:background="#3CF1EBF1"
+                    android:background="@drawable/layout_bg"
                     android:gravity="center"
                     android:orientation="vertical"
                     android:padding="8dp"
@@ -275,12 +308,12 @@
                     <ImageView
                         android:layout_width="25dp"
                         android:layout_height="25dp"
-                        android:src="@drawable/wind"
-                        android:tint="#FFF"></ImageView>
+                        android:src="@drawable/windiconbypixelperfect"
+                        android:tint="#FFF" />
 
                     <Space
                         android:layout_width="5dp"
-                        android:layout_height="wrap_content"></Space>
+                        android:layout_height="wrap_content" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -303,7 +336,7 @@
 
             <Space
                 android:layout_width="wrap_content"
-                android:layout_height="10dp">
+                android:layout_height="15dp">
 
             </Space>
 
@@ -316,7 +349,7 @@
                 <LinearLayout
                     android:layout_width="110dp"
                     android:layout_height="wrap_content"
-                    android:background="#3CF1EBF1"
+                    android:background="@drawable/layout_bg"
                     android:gravity="center"
                     android:orientation="vertical"
                     android:padding="8dp"
@@ -325,12 +358,12 @@
                     <ImageView
                         android:layout_width="25dp"
                         android:layout_height="25dp"
-                        android:src="@drawable/pressure"
-                        android:tint="#FFF"></ImageView>
+                        android:src="@drawable/gaugeiconbypixelperfect"
+                        android:tint="#FFF" />
 
                     <Space
                         android:layout_width="5dp"
-                        android:layout_height="wrap_content"></Space>
+                        android:layout_height="wrap_content" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -351,7 +384,7 @@
                 </LinearLayout>
 
                 <Space
-                    android:layout_width="10dp"
+                    android:layout_width="15dp"
                     android:layout_height="wrap_content">
 
                 </Space>
@@ -359,7 +392,7 @@
                 <LinearLayout
                     android:layout_width="110dp"
                     android:layout_height="wrap_content"
-                    android:background="#3CF1EBF1"
+                    android:background="@drawable/layout_bg"
                     android:gravity="center"
                     android:orientation="vertical"
                     android:padding="8dp"
@@ -368,12 +401,12 @@
                     <ImageView
                         android:layout_width="25dp"
                         android:layout_height="25dp"
-                        android:src="@drawable/humidity"
-                        android:tint="#FFF"></ImageView>
+                        android:src="@drawable/humidityiconbypixelperfect"
+                        android:tint="#FFF" />
 
                     <Space
                         android:layout_width="5dp"
-                        android:layout_height="wrap_content"></Space>
+                        android:layout_height="wrap_content" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -394,7 +427,7 @@
                 </LinearLayout>
 
                 <Space
-                    android:layout_width="10dp"
+                    android:layout_width="15dp"
                     android:layout_height="wrap_content">
 
                 </Space>
@@ -402,7 +435,7 @@
                 <LinearLayout
                     android:layout_width="110dp"
                     android:layout_height="wrap_content"
-                    android:background="#3CF1EBF1"
+                    android:background="@drawable/layout_bg"
                     android:gravity="center"
                     android:orientation="vertical"
                     android:padding="8dp"
@@ -415,7 +448,7 @@
 
                     <Space
                         android:layout_width="5dp"
-                        android:layout_height="wrap_content"></Space>
+                        android:layout_height="wrap_content" />
 
                     <Button
                         android:id="@+id/refresh"
@@ -456,6 +489,7 @@
         android:layout_height="wrap_content">
 
     </TextView>
+
 
 
 

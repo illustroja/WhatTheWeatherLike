@@ -81,6 +81,7 @@ class MainActivity : AppCompatActivity() {
         refreshApp()
     }
 
+
 //    START OF: --- Attempt to get User's Current Location upon App Startup ---
     private fun getCurrentLocation(){
         if(checkPermissions())
@@ -101,7 +102,6 @@ class MainActivity : AppCompatActivity() {
                     val currentLocation: Location?=task.result
                     if(currentLocation==null)
                     {
-                        Toast.makeText(this,"No Location Received", Toast.LENGTH_SHORT).show()
                     }else{
                         Toast.makeText(this,"Location Received", Toast.LENGTH_SHORT).show()
                         locationLatitude = currentLocation.latitude.toString()
@@ -169,7 +169,7 @@ class MainActivity : AppCompatActivity() {
         println(newLocation)
 
         if(intention=="get_new" && newLocation.isEmpty() ){
-            toastIt("Please include your current city")
+            toastIt("Please include a valid city")
 
             return
         }else if( intention=="get_new" && newLocation.isNotEmpty()){

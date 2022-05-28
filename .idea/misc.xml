@@ -4,8 +4,10 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/Bryan/AndroidStudioProjects/WhatTheWeatherLike/app/src/main/res/drawable/gradient_bg.xml" value="0.179" />
+        <entry key="..\:/Users/Bryan/AndroidStudioProjects/WhatTheWeatherLike/app/src/main/res/drawable/gradient_bg_invert.xml" value="0.1565" />
         <entry key="..\:/Users/Bryan/AndroidStudioProjects/WhatTheWeatherLike/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1435" />
-        <entry key="..\:/Users/Bryan/AndroidStudioProjects/WhatTheWeatherLike/app/src/main/res/layout-land/activity_main.xml" value="0.33" />
+        <entry key="..\:/Users/Bryan/AndroidStudioProjects/WhatTheWeatherLike/app/src/main/res/drawable/layout_bg.xml" value="0.2245" />
+        <entry key="..\:/Users/Bryan/AndroidStudioProjects/WhatTheWeatherLike/app/src/main/res/layout-land/activity_main.xml" value="0.25" />
         <entry key="..\:/Users/Bryan/AndroidStudioProjects/WhatTheWeatherLike/app/src/main/res/layout/activity_main.xml" value="0.3157894736842105" />
       </map>
     </option>
