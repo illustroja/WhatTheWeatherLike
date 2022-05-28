@@ -1,7 +1,10 @@
 # WhatTheWeatherLike
 WhatTheWeatherLike is a weather forecast app written in Kotlin and implemented in Android Studio.
 
+[Video walkthough](https://youtu.be/v5kboZLkAmA)
+
 ![Screenshot of app](appScreenshot.png)
+
 ## Requirements
 - Android Studio
 - Java 11
