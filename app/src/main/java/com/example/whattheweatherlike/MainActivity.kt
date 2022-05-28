@@ -275,7 +275,7 @@ class MainActivity : AppCompatActivity() {
         val rWind = jsonObj.getJSONObject("wind")
         val rWeather = jsonObj.getJSONArray("weather").getJSONObject(0)
         val rUpdatedAt:Long = jsonObj.getLong("dt")
-        val rUpdatedAtText = "Update at: " +SimpleDateFormat("dd/MM/yyyy hh:mm a", Locale.ENGLISH).format(Date(rUpdatedAt*1000))
+        val rUpdatedAtText = "Last Updated: " +SimpleDateFormat("dd/MM/yyyy hh:mm a", Locale.ENGLISH).format(Date(rUpdatedAt*1000))
         val rTemp = rMain.getString("temp")
         val rTempMin = rMain.getString("temp_min")
         val rTempMax = rMain.getString("temp_max")
