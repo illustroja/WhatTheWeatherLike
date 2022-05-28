@@ -447,6 +447,15 @@
         android:layout_height="wrap_content">
 
     </TextView>
+    <TextView
+        android:id="@+id/error_text_noInput"
+        android:layout_centerInParent="true"
+        android:text="Please enter a location..."
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    </TextView>
 
 
 

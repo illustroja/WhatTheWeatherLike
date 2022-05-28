@@ -1,71 +1,84 @@
 package com.example.whattheweatherlike
 
-//import android.R
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import com.android.volley.Request
+import com.android.volley.RequestQueue
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.random.Random
 import kotlin.math.roundToInt
-import android.content.Intent
-import android.util.Log
-import com.android.volley.Request
-import com.android.volley.RequestQueue
-import com.android.volley.toolbox.StringRequest
-import com.android.volley.toolbox.Volley
+import kotlin.random.Random
+import kotlin.concurrent.schedule
 
 var country_code = "SG"
 var locale1 = Locale("EN", country_code)
 
 class MainActivity : AppCompatActivity() {
-//    private lateinit var binding: ActivityMainBinding
-    var CITY: String = "singapore"
-    var API:String = "125c6c233852de7920c9c5c910970c65"
+
+    private fun toastIt(message: String) {
+        // this is for fragment, you can use 'this' for Activity
+        this.runOnUiThread {
+            println("TRYING TO TOAST DAMMIT")
+            // Your Toast
+            val toast = Toast.makeText(this, message, Toast.LENGTH_SHORT)
+            toast.show()
+        }
+    }
+    private var city: String = "singapore"
+    private var api:String = "125c6c233852de7920c9c5c910970c65"
 
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
-    var locationLatitude: String = ""
-    var locationLongitude: String = ""
+    private var locationLatitude: String = ""
+    private var locationLongitude: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 //        setContentView(binding.root)
 
         fusedLocationProviderClient=LocationServices.getFusedLocationProviderClient(this)
-
         getCurrentLocation()
 
-        val updated_location:EditText=findViewById(R.id.input_location)
-        val update_location_btn:Button=findViewById(R.id.update_location_btn)
-        val refresh_btn:Button=findViewById(R.id.refresh)
 
-        refresh_btn.setOnClickListener {
-            getWeatherInit()
+
+        val updateLocationBtn:Button=findViewById(R.id.update_location_btn)
+        val refreshBtn:Button=findViewById(R.id.refresh)
+
+        refreshBtn.setOnClickListener {
+            toastIt("Refreshing App")
+            getWeatherInit("refresh")
         }
-        update_location_btn.setOnClickListener {
-            val new_location=updated_location.text.toString()
-            if(new_location.isEmpty()){
-                Toast.makeText(this,"Please include your current City",Toast.LENGTH_SHORT).show()
-            }else{
-                CITY = new_location
-                Toast.makeText(this,new_location,Toast.LENGTH_SHORT).show()
-            }
-            getWeatherInit()
+        updateLocationBtn.setOnClickListener {
+            getWeatherInit("get_new")
         }
 
-        getWeatherInit()
+        getWeatherInit("location")
+    }
+    override fun onStop() {
+//      In case APP stops unexpectedly, show Error Screen
+        super.onStop()
+        findViewById<ProgressBar>(R.id.loader).visibility = View.VISIBLE
+        findViewById<RelativeLayout>(R.id.mainContainer).visibility = View.GONE
+        findViewById<TextView>(R.id.error_text).visibility = View.GONE
+        refreshApp()
     }
 
 //    START OF: --- Attempt to get User's Current Location upon App Startup ---
@@ -146,20 +159,29 @@ class MainActivity : AppCompatActivity() {
 //    END OF: --- Attempt to get User's Current Location upon App Startup ---
 
     //    START OF: --- Main Weather Function ---
-    private fun getWeatherInit() {
-        fun onStop() {
-//            In case APP stops unexpectedly, show Error Screen
-            super.onStop()
-            findViewById<ProgressBar>(R.id.loader).visibility = View.VISIBLE
-            findViewById<RelativeLayout>(R.id.mainContainer).visibility = View.GONE
-            findViewById<TextView>(R.id.error_text).visibility = View.GONE
-        }
+    private fun getWeatherInit(intention: String) {
+        findViewById<TextView>(R.id.error_text).visibility = View.GONE
+        findViewById<TextView>(R.id.error_text_noInput).visibility = View.GONE
+        var newLocation=""
+        val updatedLocation:EditText=findViewById(R.id.input_location)
+        newLocation=updatedLocation.text.toString()
+        println("PRINTING NEW LOCATION")
+        println(newLocation)
 
+        if(intention=="get_new" && newLocation.isEmpty() ){
+            toastIt("Please include your current city")
+
+            return
+        }else if( intention=="get_new" && newLocation.isNotEmpty()){
+            city = newLocation
+            toastIt("Getting Info on $newLocation")
+        }
         var url = ""
-        var queue: RequestQueue
-        var stringRequest: StringRequest
-        if (CITY != "singapore, sg") {
-            url = "https://api.openweathermap.org/data/2.5/weather?q=$CITY&units=metric&appid=$API"
+        val queue: RequestQueue
+        val stringRequest: StringRequest
+
+        if (city != "singapore") {
+            url = "https://api.openweathermap.org/data/2.5/weather?q=$city&units=metric&appid=$api"
             queue = Volley.newRequestQueue(this)
             stringRequest = StringRequest(Request.Method.GET,
                 url,
@@ -167,22 +189,27 @@ class MainActivity : AppCompatActivity() {
                     //                    Response Success
                         response ->
                     Log.d("Log: ", "Response: $response")
-                    println("debug: Weather API call SUCCESS")
+                    println("debug: Weather api call SUCCESS")
                     getWeatherResponse(response)
                 },
                 //                Else Error found
                 {
                     Log.d("Log: ", "Volley error: $it")
-                    println("debug: Weather API call FAILED")
-                    findViewById<TextView>(R.id.error_text).visibility = View.VISIBLE
+                    println("debug: Weather api call FAILED")
+
+                    toastIt("No such Location as $city")
+//                    Timer("Preparing to Restart", false).schedule(500) {
+//                        refreshApp()
+//                    }
+
                 }
             )
             queue.add(stringRequest)
 
 
-        } else if (locationLatitude != "" && locationLongitude != "") {
+        } else if (locationLatitude != "" && locationLongitude != "" && newLocation=="") {
             url =
-                "https://api.openweathermap.org/data/2.5/weather?lat=$locationLatitude&lon=$locationLongitude&units=metric&appid=$API"
+                "https://api.openweathermap.org/data/2.5/weather?lat=$locationLatitude&lon=$locationLongitude&units=metric&appid=$api"
             queue = Volley.newRequestQueue(this)
             stringRequest = StringRequest(Request.Method.GET,
                 url,
@@ -190,21 +217,25 @@ class MainActivity : AppCompatActivity() {
                     //                    Response Success
                         response ->
                     Log.d("Log: ", "Response: $response")
-                    println("debug: Weather API call SUCCESS")
+                    println("debug: Weather api call SUCCESS")
                     getWeatherResponse(response)
                 },
                 //                Else Error found
                 {
                     Log.d("Log: ", "Volley error: $it")
-                    println("debug: Weather API call FAILED")
-                    findViewById<TextView>(R.id.error_text).visibility = View.VISIBLE
+                    println("debug: Weather api call FAILED")
+
+                    toastIt("Weather API Failed - LatLong doesn't exist")
+//                    Timer("Preparing to Restart", false).schedule(500) {
+//                        refreshApp()
+//                    }
                 }
             )
             queue.add(stringRequest)
 
         } else {
             url =
-                "https://api.openweathermap.org/data/2.5/weather?q=$CITY&units=metric&appid=$API"
+                "https://api.openweathermap.org/data/2.5/weather?q=$city&units=metric&appid=$api"
             queue = Volley.newRequestQueue(this)
             stringRequest = StringRequest(Request.Method.GET,
                 url,
@@ -212,14 +243,18 @@ class MainActivity : AppCompatActivity() {
                     //                    Response Success
                         response ->
                     Log.d("Log: ", "Response: $response")
-                    println("debug: Weather API call SUCCESS")
+                    println("debug: Weather api call SUCCESS")
                     getWeatherResponse(response)
                 },
                 //                Else Error found
                 {
                     Log.d("Log: ", "Volley error: $it")
-                    println("debug: Weather API call FAILED")
-                    findViewById<TextView>(R.id.error_text).visibility = View.VISIBLE
+                    println("debug: Weather api call FAILED")
+
+                    toastIt("Weather API Failed - SG Boleh")
+//                    Timer("Preparing to Restart", false).schedule(500) {
+//                        refreshApp()
+//                    }
                 }
             )
             queue.add(stringRequest)
@@ -228,7 +263,9 @@ class MainActivity : AppCompatActivity() {
     //    END OF: --- Main Weather Function ---
 
 
+    @SuppressLint("SetTextI18n")
     private fun getWeatherResponse(response:String) {
+        findViewById<ProgressBar>(R.id.loader).visibility = View.VISIBLE
         val jsonObj = JSONObject(response)
         val rMain = jsonObj.getJSONObject("main")
         val rSys = jsonObj.getJSONObject("sys")
@@ -275,8 +312,10 @@ class MainActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.updated_at).text = rUpdatedAtText
         findViewById<TextView>(R.id.weather_status).text = weatherDescTitle
         findViewById<TextView>(R.id.temperature).text = tempFloat.toString()
-        findViewById<TextView>(R.id.temperature_min).text = "Min Temp: \n " + tempMinFloat.toString() + " degrees celsius"
-        findViewById<TextView>(R.id.temperature_max).text = "Max Temp: \n" + tempMaxFloat.toString() + " degrees celsius"
+        findViewById<TextView>(R.id.temperature_min).text =
+            "Min Temp: \n $tempMinFloat degrees celsius"
+        findViewById<TextView>(R.id.temperature_max).text =
+            "Max Temp: \n$tempMaxFloat degrees celsius"
         findViewById<TextView>(R.id.sunrise_timing).text = SimpleDateFormat("hh:mm a", locale1).format(Date(rSunrise*1000))
         findViewById<TextView>(R.id.sunset_timing).text = SimpleDateFormat("hh:mm a", locale1).format(Date(rSunset*1000))
 
@@ -292,8 +331,8 @@ class MainActivity : AppCompatActivity() {
 //                weather_description = "thunderstorm "
         //RAIN
         if ("rain" in rWeatherDescription ){
-            val random_gen = Random.nextInt(0, 2)
-            if (random_gen == 0){
+            val randomGen = Random.nextInt(0, 2)
+            if (randomGen == 0){
                 layout.setBackgroundResource(R.drawable.rain_1)
             }else{
                 layout.setBackgroundResource(R.drawable.rain_2)
@@ -301,29 +340,28 @@ class MainActivity : AppCompatActivity() {
         }
         //THUNDERSTORM
         if ("storm" in rWeatherDescription ){
-            val random_gen = Random.nextInt(0, 2)
-            if (random_gen == 0){
+            val randomGen = Random.nextInt(0, 2)
+            if (randomGen == 0){
                 layout.setBackgroundResource(R.drawable.stormy_1)
             }else{
                 layout.setBackgroundResource(R.drawable.stormy_2)
             }
         }
-        //SCATTERED CLOUDS
-        if ("scattered " in rWeatherDescription ){
-            val random_gen = Random.nextInt(0, 2)
-            if (random_gen == 0){
+        //BROKEN or OVERCAST CLOUDS - 51%-100%
+        if ("broken" in rWeatherDescription || "overcast" in rWeatherDescription ){
+            val randomGen = Random.nextInt(0, 2)
+            if (randomGen == 0){
                 layout.setBackgroundResource(R.drawable.cloudy_1)
             }else{
                 layout.setBackgroundResource(R.drawable.cloudy_2)
             }
-
         }
-        //FEW CLOUDS
-        if ("few " in rWeatherDescription ){
-            val random_gen = Random.nextInt(0, 3)
-            if (random_gen == 0){
+        //FEW or SCATTERED CLOUDS - 11%-50%
+        if ("few" in rWeatherDescription || "scattered" in rWeatherDescription ){
+            val randomGen = Random.nextInt(0, 3)
+            if (randomGen == 0){
                 layout.setBackgroundResource(R.drawable.few_clouds_1)
-            }else if(random_gen == 1){
+            }else if(randomGen == 1){
                 layout.setBackgroundResource(R.drawable.few_clouds_2)
             }
             else{
@@ -332,10 +370,10 @@ class MainActivity : AppCompatActivity() {
         }
         //CLEAR
         if ("clear" in rWeatherDescription ){
-            val random_gen = Random.nextInt(0, 3)
-            if (random_gen == 0){
+            val randomGen = Random.nextInt(0, 3)
+            if (randomGen == 0){
                 layout.setBackgroundResource(R.drawable.clear_1)
-            }else if(random_gen == 1){
+            }else if(randomGen == 1){
                 layout.setBackgroundResource(R.drawable.clear_2)
             }
             else{
@@ -347,4 +385,17 @@ class MainActivity : AppCompatActivity() {
 
 
     }
+
+
+    private fun refreshApp() {
+        // after on CLick we are using finish to close and then just after that
+        // we are calling startactivity(getIntent()) to open our application
+        finish()
+        startActivity(intent)
+
+        // this basically provides animation
+        overridePendingTransition(0, 0)
+
+    }
+
 }
