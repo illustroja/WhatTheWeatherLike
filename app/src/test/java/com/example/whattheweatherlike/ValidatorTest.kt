@@ -9,9 +9,9 @@ class ValidatorTest{
     @Test
     fun whenInputIsEmpty() {
         val city = ""
-//        val result = Validator.validateUserInput(city)
-//        assertThat(result).isFalse()
-        assert(city.isEmpty())
+        val result = Validator.validateUserInput(city)
+        assertThat(result).isFalse()
+//        assert(city.isEmpty())
     }
 
     @Test
