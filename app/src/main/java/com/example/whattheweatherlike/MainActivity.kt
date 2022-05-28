@@ -26,12 +26,13 @@ import java.util.*
 import kotlin.math.roundToInt
 import kotlin.random.Random
 import kotlin.concurrent.schedule
+//IMPORT UNIT TEST CASES
+import com.example.whattheweatherlike.Validator.validateUserInput
 
 var country_code = "SG"
 var locale1 = Locale("EN", country_code)
 
 class MainActivity : AppCompatActivity() {
-
     private fun toastIt(message: String) {
         // this is for fragment, you can use 'this' for Activity
         this.runOnUiThread {
@@ -130,6 +131,7 @@ class MainActivity : AppCompatActivity() {
         PERMISSION_LOCATION_ACCESS
         )
     }
+
     companion object{
         private const val PERMISSION_LOCATION_ACCESS=100
     }
@@ -165,6 +167,7 @@ class MainActivity : AppCompatActivity() {
         var newLocation=""
         val updatedLocation:EditText=findViewById(R.id.input_location)
         newLocation=updatedLocation.text.toString()
+        println(validateUserInput(newLocation))
         println("PRINTING NEW LOCATION")
         println(newLocation)
 
