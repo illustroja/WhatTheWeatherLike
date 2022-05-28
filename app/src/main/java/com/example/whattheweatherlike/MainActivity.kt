@@ -29,6 +29,7 @@ import kotlin.concurrent.schedule
 //IMPORT UNIT TEST CASES
 import com.example.whattheweatherlike.Validator.validateUserInput
 
+
 var country_code = "SG"
 var locale1 = Locale("EN", country_code)
 
@@ -50,7 +51,6 @@ class MainActivity : AppCompatActivity() {
     private var locationLongitude: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 //        setContentView(binding.root)
