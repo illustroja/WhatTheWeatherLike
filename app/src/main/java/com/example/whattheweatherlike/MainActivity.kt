@@ -1,5 +1,6 @@
 package com.example.whattheweatherlike
 
+//IMPORT UNIT TEST CASES
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
@@ -18,6 +19,7 @@ import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.example.whattheweatherlike.Validator.validateUserInput
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import org.json.JSONObject
@@ -25,9 +27,6 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.roundToInt
 import kotlin.random.Random
-import kotlin.concurrent.schedule
-//IMPORT UNIT TEST CASES
-import com.example.whattheweatherlike.Validator.validateUserInput
 
 
 var country_code = "SG"
@@ -44,7 +43,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
     private var city: String = "singapore"
-    private var api:String = "125c6c233852de7920c9c5c910970c65"
+    private var api:String = getString(R.string.api_key)
 
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private var locationLatitude: String = ""
