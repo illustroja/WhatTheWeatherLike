@@ -10,6 +10,7 @@ import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
 import android.provider.Settings
+import android.provider.Settings.Global.getString
 import android.util.Log
 import android.view.View
 import android.widget.*
@@ -43,7 +44,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
     private var city: String = "singapore"
-    private var api:String = getString(R.string.api_key)
 
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private var locationLatitude: String = ""
@@ -51,6 +51,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        var api:String = getString(R.string.api_key)
         setContentView(R.layout.activity_main)
 //        setContentView(binding.root)
 
@@ -64,13 +65,13 @@ class MainActivity : AppCompatActivity() {
 
         refreshBtn.setOnClickListener {
             toastIt("Refreshing App")
-            getWeatherInit("refresh")
+            getWeatherInit("refresh", api)
         }
         updateLocationBtn.setOnClickListener {
-            getWeatherInit("get_new")
+            getWeatherInit("get_new", api)
         }
 
-        getWeatherInit("location")
+        getWeatherInit("location", api)
     }
     override fun onStop() {
 //      In case APP stops unexpectedly, show Error Screen
@@ -160,7 +161,7 @@ class MainActivity : AppCompatActivity() {
 //    END OF: --- Attempt to get User's Current Location upon App Startup ---
 
     //    START OF: --- Main Weather Function ---
-    private fun getWeatherInit(intention: String) {
+    private fun getWeatherInit(intention: String, apiKey: String) {
         findViewById<TextView>(R.id.error_text).visibility = View.GONE
         findViewById<TextView>(R.id.error_text_noInput).visibility = View.GONE
         var newLocation=""
@@ -183,7 +184,7 @@ class MainActivity : AppCompatActivity() {
         val stringRequest: StringRequest
 
         if (city != "singapore") {
-            url = "https://api.openweathermap.org/data/2.5/weather?q=$city&units=metric&appid=$api"
+            url = "https://api.openweathermap.org/data/2.5/weather?q=$city&units=metric&appid=$apiKey"
             queue = Volley.newRequestQueue(this)
             stringRequest = StringRequest(Request.Method.GET,
                 url,
@@ -211,7 +212,7 @@ class MainActivity : AppCompatActivity() {
 
         } else if (locationLatitude != "" && locationLongitude != "" && newLocation=="") {
             url =
-                "https://api.openweathermap.org/data/2.5/weather?lat=$locationLatitude&lon=$locationLongitude&units=metric&appid=$api"
+                "https://api.openweathermap.org/data/2.5/weather?lat=$locationLatitude&lon=$locationLongitude&units=metric&appid=$apiKey"
             queue = Volley.newRequestQueue(this)
             stringRequest = StringRequest(Request.Method.GET,
                 url,
@@ -237,7 +238,7 @@ class MainActivity : AppCompatActivity() {
 
         } else {
             url =
-                "https://api.openweathermap.org/data/2.5/weather?q=$city&units=metric&appid=$api"
+                "https://api.openweathermap.org/data/2.5/weather?q=$city&units=metric&appid=$apiKey"
             queue = Volley.newRequestQueue(this)
             stringRequest = StringRequest(Request.Method.GET,
                 url,
